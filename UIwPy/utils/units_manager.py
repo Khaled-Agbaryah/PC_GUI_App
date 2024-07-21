@@ -34,8 +34,8 @@ class units_manager:
     
     def get_time_function(self, unit: str):
         i = self.__json_data["time units"].index(unit)
-        return lambda x: self.__json_data["time units functions"][i]
+        return lambda x: eval(self.__json_data["time units functions"][i])
     
     def get_pressure_function(self, unit: str):
         i = self.__json_data["pressure units"].index(unit)
-        return lambda x: self.__json_data["pressure units functions"][i]
+        return lambda x: eval(self.__json_data["pressure units functions"][i])

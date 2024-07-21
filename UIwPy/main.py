@@ -17,6 +17,9 @@ import utils.plotter as plotter
 from PyQt5.QtCore import QTimer
 from PyQt5.QtCore import QTimer
 import matplotlib.pyplot as plt
+from PyQt5.QtCore import QTimer
+import time
+import time
 
 
 # Globals
@@ -243,11 +246,11 @@ class MainWindow(QMainWindow):
                 self.create_message_box("Error", "Failed to connect to device!\nMake sure cable is connected and device is on", QMessageBox.Critical)
                 return
 
-            # call window.status_updater every 0.5 seconds
+            # # call window.status_updater every 5 seconds
             # self.timer = QTimer()
             # # set the function as self.status_updater
             # self.timer.timeout.connect(self.status_updater)
-            # self.timer.start(1000)
+            # self.timer.start(5000)
             
             self.ui.ToolBarStatusdot.setIcon(QtGui.QIcon(GREENDOT_ICON_PATH))
             self.ui.ToolBarStatusLabel.setText("Status: Connected")
@@ -567,6 +570,8 @@ class MainWindow(QMainWindow):
             
             pressure_unit = self.ui.IGPressureUnitCombo.currentText()
             time_unit = self.ui.IGTimeUnitCombo.currentText()
+            self.plot_controller.pressure_unit = pressure_unit
+            self.plot_controller.time_unit = time_unit
             xaxis_name = f"Time [{time_unit}]"
             yaxis_name = f"Pressure [{pressure_unit}]"
             
@@ -587,6 +592,8 @@ class MainWindow(QMainWindow):
                 style = self.ui.IGPlotItCheckBox.text()
                 self.plot_controller.create_line(name, style)
                 self.IGplotData = True
+            else:
+                self.IGplotData = False
             
             # if CG1 plot is checked, add it
             if self.ui.CG1PlotItCheckBox.isChecked():
@@ -594,15 +601,26 @@ class MainWindow(QMainWindow):
                 style = self.ui.CG1PlotItCheckBox.text()
                 self.plot_controller.create_line(name, style)
                 self.CG1plotData = True
+            else:
+                self.CG1plotData = False
             
-            # if CG2 plot is checked, add it
-            if self.ui.CG2PlotItCheckBox.isChecked():
-                name = "CGP2"
-                style = self.ui.CG2PlotItCheckBox.text()
-                self.plot_controller.create_line(name, style)
-                self.CG2plotData = True
+            # # if CG2 plot is checked, add it
+            # if self.ui.CG2PlotItCheckBox.isChecked():
+            #     name = "CGP2"
+            #     style = self.ui.CG2PlotItCheckBox.text()
+            #     self.plot_controller.create_line(name, style)
+            #     self.CG2plotData = True
+            # else:
+            #     self.CG2plotData = False
             
+            self.start_time = time.time()
             self.plot_controller.start_animation()
+            
+            # create a timer runs every "time latency" and updates the graph
+            self.plot_timer = QTimer()
+            self.plot_timer.timeout.connect(self.plot_data_updater)
+            self.plot_timer.start(json_settings.get_settings_attribute("time latency") * 1000)
+
         self.ui.StartPlotPlotView.clicked.connect(start_live_plot)
 
         # close live plot button
@@ -612,7 +630,29 @@ class MainWindow(QMainWindow):
                 self.plot_controller = None
             else:
                 self.create_message_box("Warning", "Plot does not exist!", QMessageBox.Warning)
+
+            # stop self.plot_timer
+            if self.plot_timer:
+                self.plot_timer.stop()
         self.ui.StopPlotPlotView.clicked.connect(close_live_plot)
+
+    def plot_data_updater(self):
+        timefunc = json_units.get_time_function(self.plot_controller.time_unit)
+        pressurefunc = json_units.get_pressure_function(self.plot_controller.pressure_unit)
+
+        # if IG is plotted get it's pressure
+        if self.IGplotData:
+            pressure = self.CGDevice.get_IG_pressure()
+            curtime = time.time() - self.start_time
+
+            self.plot_controller.add_data("IGP", timefunc(curtime), pressurefunc(pressure))
+        
+        # ig CG1 is plotted get it's pressure
+        if self.CG1plotData:
+            pressure = self.CGDevice.get_CG1_pressure()
+            curtime = time.time() - self.start_time
+
+            self.plot_controller.add_data("CGP1", timefunc(curtime), pressurefunc(pressure))
 
     # create message box
     def create_message_box(self, title:str, text:str, ico = QMessageBox.NoIcon):
@@ -748,12 +788,13 @@ if __name__ == "__main__":
         if window.plot_controller:
             window.plot_controller.close_plot()
         
-        # stop QTimer
-        window.timer.stop()
+        # # stop QTimer
+        # window.timer.stop()
 
         # close the app
         app.quit()
     window.closeEvent = on_close
     
     window.show()
-    asyncio.run(sys.exit(app.exec_()))
+    # asyncio.run(sys.exit(app.exec_()))
+    sys.exit(app.exec_())
