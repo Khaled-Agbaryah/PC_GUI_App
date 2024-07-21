@@ -1,0 +1,9 @@
+deal with program getting stuck
+
+delay between commands
+validate numbers of pressure are correct
+simulate with print commands before turning on feliment
+
+make setup.py more clear
+create the virtual environments sepecified in setup.py
+seconds pump, less than 5 torr

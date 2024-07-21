@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>940</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="page1">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QVBoxLayout" name="linesCon">
+          <item>
+           <layout class="QVBoxLayout" name="filemanagerCon">
+            <item>
+             <layout class="QHBoxLayout" name="savedatatoCon">
+              <item>
+               <widget class="QLabel" name="filepathLabel">
+                <property name="text">
+                 <string>Data File Path: </string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="filepathEdit"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_2"/>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="Line" name="line1">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="devicecomCon">
+            <item>
+             <widget class="QLabel" name="devicecomLabel">
+              <property name="text">
+               <string>Device Port: </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="devicecomEdit"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="devicecomButton">
+              <property name="text">
+               <string>Connect</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="devicecomstatusLabel">
+              <property name="text">
+               <string>Disconnected</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="Line" name="line2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="configurationCon">
+            <item>
+             <layout class="QHBoxLayout" name="configuration1Con">
+              <item>
+               <layout class="QVBoxLayout" name="pressureunitCon">
+                <item>
+                 <widget class="QLabel" name="pressureunitLabel">
+                  <property name="text">
+                   <string>Pressure Unit </string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="pressureunitCombo"/>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="Line" name="line3">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="timeunitCon">
+                <item>
+                 <widget class="QLabel" name="timeunitLabel">
+                  <property name="text">
+                   <string>Time Unit </string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="timeunitCombo"/>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="Line" name="line4">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="configuration2Con">
+              <item>
+               <layout class="QVBoxLayout" name="runtimeCon">
+                <item>
+                 <widget class="QLabel" name="runtimeLabel">
+                  <property name="text">
+                   <string>Max Runtime</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="tuntimenoteLabel">
+                  <property name="text">
+                   <string>Note: 
+  max runtime is in seconds 
+  0 to run forever 
+  max-timer is 1 week</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="runtimeSpin">
+                  <property name="maximum">
+                   <number>604800</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="Line" name="line5">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="latencyCon">
+                <item>
+                 <widget class="QLabel" name="latencyLabel">
+                  <property name="text">
+                   <string>Time Latency </string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="latencynoteLabel">
+                  <property name="text">
+                   <string>Note: 
+  time latency is in mili-seconds 
+  minimum is 5ms 
+  maximum is 5s</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDoubleSpinBox" name="latencySpin">
+                  <property name="minimum">
+                   <double>5.000000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>5000.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page2">
+       <layout class="QVBoxLayout" name="verticalLayout_3"/>
+      </widget>
+      <widget class="QWidget" name="page3">
+       <layout class="QVBoxLayout" name="verticalLayout_4"/>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>940</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="ToolBarIGPLabel"/>
+   <addaction name="separator"/>
+   <addaction name="ToolBarCG1PLabel"/>
+   <addaction name="separator"/>
+   <addaction name="ToolBarCG2PLabel"/>
+   <addaction name="separator"/>
+   <addaction name="ToolBarStatusLabel"/>
+   <addaction name="ToolBarGreendot"/>
+   <addaction name="ToolBarReddot"/>
+   <addaction name="separator"/>
+   <addaction name="ToolBarFelimentLabel"/>
+   <addaction name="ToolBarPowerONOFFICO"/>
+  </widget>
+  <action name="ToolBarIGPLabel">
+   <property name="text">
+    <string>IGP: 7.77E-01 Torr</string>
+   </property>
+  </action>
+  <action name="ToolBarCG1PLabel">
+   <property name="text">
+    <string>CG1P: 7.77E-01 Torr</string>
+   </property>
+  </action>
+  <action name="ToolBarCG2PLabel">
+   <property name="text">
+    <string>CG2P: 7.77E-01 Torr</string>
+   </property>
+  </action>
+  <action name="ToolBarStatusLabel">
+   <property name="text">
+    <string>Status: Connected</string>
+   </property>
+  </action>
+  <action name="ToolBarGreendot">
+   <property name="icon">
+    <iconset>
+     <normaloff>../icons/greendot.ico</normaloff>../icons/greendot.ico</iconset>
+   </property>
+   <property name="text">
+    <string>greendot</string>
+   </property>
+  </action>
+  <action name="ToolBarReddot">
+   <property name="icon">
+    <iconset>
+     <normaloff>../icons/reddot.ico</normaloff>../icons/reddot.ico</iconset>
+   </property>
+   <property name="text">
+    <string>reddot</string>
+   </property>
+  </action>
+  <action name="ToolBarFelimentLabel">
+   <property name="text">
+    <string>Feliment: OFF</string>
+   </property>
+  </action>
+  <action name="ToolBarPowerONOFFICO">
+   <property name="icon">
+    <iconset>
+     <normaloff>../icons/poweron.ico</normaloff>../icons/poweron.ico</iconset>
+   </property>
+   <property name="text">
+    <string>poweronoff</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

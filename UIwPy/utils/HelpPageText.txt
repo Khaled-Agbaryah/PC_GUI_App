@@ -1,0 +1,14 @@
+About:
+   this app is for the lab of Dr.Moshe Friedman for the leak detection system.
+
+Help:
+   in case of confusion don't hesitate to ask: Aviv, Moshe or Khaled
+
+Warnings and Safety:
+   just don't do something you're not sure of
+
+Contact:
+   Aviv, Moshe or Khaled
+
+Thanks to:
+   Aviv and Moshe

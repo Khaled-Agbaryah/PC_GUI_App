@@ -1,0 +1,5 @@
+d:
+cd D:\users\khaled\Work\lab_with_dr_moshe\PC_GUI_App
+env\Scripts\activate.bat
+cd UIwPy
+..\ui2py.bat && cd UIwPy && python main.py

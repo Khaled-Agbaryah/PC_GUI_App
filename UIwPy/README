@@ -1,0 +1,6 @@
+Hello
+
+Setup:
+   run "python3 setup.py",
+   it will automatically install the dependencies needed for the project.
+   or you could download the virtual environment provided by the creator of the project.

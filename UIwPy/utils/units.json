@@ -1,0 +1,23 @@
+{
+    "Note": "time units",
+    "time units": ["ms", 
+                   "s", 
+                   "min", 
+                   "h"],
+    
+    "Note": "python expression on 'x' to convert from seconds to the desired time unit",
+    "time units functions": ["x*1000", 
+                             "x",
+                             "x/60",
+                             "x/3600"],
+    
+    "Note": "pressure units",
+    "pressure units": ["torr",
+                       "mbar",
+                       "bar"],
+    
+    "Note": "python expression on 'x' to convert from torr to the desired pressure unit",
+    "pressure units functions": ["x",
+                                 "x*1.33322",
+                                 "x*0.00133322"]
+}
