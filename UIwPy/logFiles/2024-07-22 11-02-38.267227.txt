@@ -1,0 +1,5 @@
+>m[0]: Saved settings are loaded successfully
+>m[1]: App started
+>m[2]: Device is connected successfully
+>m[3]: Settings are saved successfully
+>m[4]: Live plot started

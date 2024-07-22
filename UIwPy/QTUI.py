@@ -347,8 +347,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_19.addWidget(self.timeLatencyHelp)
         self.verticalLayout_27.addLayout(self.horizontalLayout_19)
         self.TimeLatencyDoubleSpinBox = QtWidgets.QDoubleSpinBox(self.tab_3)
-        self.TimeLatencyDoubleSpinBox.setMinimum(5.0)
-        self.TimeLatencyDoubleSpinBox.setMaximum(5000.0)
+        self.TimeLatencyDoubleSpinBox.setMinimum(1.0)
+        self.TimeLatencyDoubleSpinBox.setMaximum(30.0)
+        self.TimeLatencyDoubleSpinBox.setProperty("value", 1.0)
         self.TimeLatencyDoubleSpinBox.setObjectName("TimeLatencyDoubleSpinBox")
         self.verticalLayout_27.addWidget(self.TimeLatencyDoubleSpinBox)
         self.horizontalLayout_16.addLayout(self.verticalLayout_27)
@@ -772,9 +773,9 @@ class Ui_MainWindow(object):
 "   max-timer is 1 week"))
         self.label_24.setText(_translate("MainWindow", "Time Latency: \n"
 "Note: \n"
-"   time latency is in mili-seconds \n"
-"   minimum is 5ms \n"
-"   maximum is 5s "))
+"   time latency is in seconds \n"
+"   minimum is 1ms \n"
+"   maximum is 30s "))
         self.StartLivePlotPushButton.setText(_translate("MainWindow", "Start Live Plot"))
         self.CreateLogFileCheckBox.setText(_translate("MainWindow", "Create Log File"))
         self.LogTextBox1.setPlainText(_translate("MainWindow", "hello\n"

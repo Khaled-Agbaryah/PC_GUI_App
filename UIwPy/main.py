@@ -46,7 +46,7 @@ SETTINGS_TAB_SUBTAB_1_NAME = "Device and Data File"
 SETTINGS_TAB_SUBTAB_2_NAME = "Sensors and Units"
 SETTINGS_TAB_SUBTAB_3_NAME = "Run Details"
 
-log_obj = logger.logger(f"{LOG_FOLDER_PATH}/{dt.datetime.now()}")
+log_obj = logger.logger(f"{LOG_FOLDER_PATH}/{str(dt.datetime.now()).replace(':', '-')}.txt")
 json_settings = settings_manager.settings_manager(SETTINGS_FILE_PATH)
 json_units = units_manager.units_manager(UNITS_FILE_PATH)
 
@@ -124,6 +124,8 @@ class MainWindow(QMainWindow):
         self.ui.CG1TimeUnitCombo.insertItems(0, time_units[:])
         self.ui.CG2PressureUnitCombo.insertItems(0, pressure_units[:])
         self.ui.CG2TimeUnitCombo.insertItems(0, time_units[:])
+        self.ui.PlotPressureUnitCombo.insertItems(0, pressure_units[:])
+        self.ui.PlotTimeUnitCombo.insertItems(0, time_units[:])
 
         # insert Help Page content
         with open(HELP_PAGE_TEXT_FILE_PATH, "r") as fp:
@@ -179,8 +181,15 @@ class MainWindow(QMainWindow):
         tmp = str(json_settings.get_settings_attribute("time latency"))
         tmp = float(tmp) if is_float(tmp) else 0
         self.ui.TimeLatencyDoubleSpinBox.setValue(tmp)
-        self.ui.CreateLogFileCheckBox.setChecked(json_settings.get_settings_attribute("save log files") == "True")
+        if json_settings.get_settings_attribute("save log files") == "True":
+            self.ui.CreateLogFileCheckBox.setChecked(True)
+            log_obj.set_auto_save(True)
         ## live plot ##
+        self.ui.PlotPressureUnitCombo.setCurrentText(json_settings.get_live_plot_attribute("pressure unit"))
+        self.ui.PlotTimeUnitCombo.setCurrentText(json_settings.get_live_plot_attribute("time unit"))
+        self.ui.XAxisLogScaleCheckbox.setChecked(json_settings.get_live_plot_attribute("x axis log scale") == "True")
+        self.ui.YAxisLogScaleCheckbox.setChecked(json_settings.get_live_plot_attribute("y axis log scale") == "True")
+        self.ui.GriddedCheckBox.setChecked(json_settings.get_live_plot_attribute("gridded") == "True")
         # IG
         self.ui.IGPlotItCheckBox.setChecked(json_settings.get_live_plot_IG_attribute("plot it") == "True")
         self.ui.IGPlotCustomFunctionLineEdit.setText(json_settings.get_live_plot_IG_attribute("custom function"))
@@ -197,6 +206,8 @@ class MainWindow(QMainWindow):
         self.ui.CG2PlotPressureLineStyle.setText(json_settings.get_live_plot_CG2_attribute("pressure line style"))
         self.ui.CG2PlotCustomFunctionLineStyle.setText(json_settings.get_live_plot_CG2_attribute("custom function line style"))
         
+        self.add_to_log_textbox(1, "Saved settings are loaded successfully")
+
         ########################
         # Logic, making UI work
         ########################
@@ -217,13 +228,14 @@ class MainWindow(QMainWindow):
             else:
                 # device not connected
                 self.create_message_box("Error", "Device is not connected!", QMessageBox.Critical)
+                self.add_to_log_textbox(1, "Can't turn on feliment - device is not connected!")
         self.ui.ToolBarPowerONOFFICO.triggered.connect(feliment_power_button)
 
         # save settings
         def save_settings():
             json_settings.save_settings()
             self.create_message_box("Success", "Settings saved successfully!", QMessageBox.Information)
-            
+            self.add_to_log_textbox(1, "Settings are saved successfully")
         self.ui.actionsaveSettingsICO.triggered.connect(save_settings)
         
         ################
@@ -237,6 +249,7 @@ class MainWindow(QMainWindow):
             # if device is already connected abort
             if hasattr(self, "CGDevice"):
                 self.create_message_box("Warning", "Device is already connected!", QMessageBox.Warning)
+                self.add_to_log_textbox(1, "Device is already connected - (connect button was clicked)")
                 return
 
             port = self.ui.DevicePortLineEdit.text()
@@ -244,6 +257,7 @@ class MainWindow(QMainWindow):
                 self.CGDevice = CGcontacter.CGcontactor(port)
             except:
                 self.create_message_box("Error", "Failed to connect to device!\nMake sure cable is connected and device is on", QMessageBox.Critical)
+                self.add_to_log_textbox(1, "Failed to connect to device - make sure the cable is connected properly and the device is on, you can also validate device is connected in the 'Device Manager'")
                 return
 
             # # call window.status_updater every 5 seconds
@@ -256,6 +270,7 @@ class MainWindow(QMainWindow):
             self.ui.ToolBarStatusLabel.setText("Status: Connected")
             self.ui.connectDeviceButton.setIcon(QtGui.QIcon(CONNECTED_ICON_PATH))
             self.ui.connectDeviceLabel.setText("Connected")
+            self.add_to_log_textbox(1, "Device is connected successfully")
         self.ui.connectDeviceButton.clicked.connect(connect_device)
 
         # device port line edit
@@ -271,7 +286,7 @@ class MainWindow(QMainWindow):
                 tmpstr = str(dt.datetime.now())
                 default_name = f"{tmpstr.replace(':', '-')}.csv"
             
-            default_directory = './measurements/'
+            default_directory = MEASUREMENTS_FOLDER_PATH + "/"
             file_filter = "CSV Files (*.csv)"
 
             options = QtWidgets.QFileDialog.Options()
@@ -288,8 +303,6 @@ class MainWindow(QMainWindow):
             if not filename.endswith(".csv"):
                 filename += ".csv"
             self.ui.SaveFilePathLineEdit.setText(filename)
-
-            log_obj.set_log_file_path(filename)
         self.ui.SaveFilePathLineEdit.mousePressEvent = choose_file_path
 
         # save file name on change
@@ -424,8 +437,11 @@ class MainWindow(QMainWindow):
         def create_log_file(x):
             if self.ui.CreateLogFileCheckBox.isChecked():
                 json_settings.set_settings_attribute("save log files", "True")
+                log_obj.set_auto_save(True)
+                log_obj.save_log()
             else:
                 json_settings.set_settings_attribute("save log files", "False")
+                log_obj.set_auto_save(False)
         self.ui.CreateLogFileCheckBox.stateChanged.connect(create_log_file)
 
         # start live plot push button
@@ -519,16 +535,16 @@ class MainWindow(QMainWindow):
         self.ui.CG2PlotCustomFunctionLineStyle.textChanged.connect(CG2_custom_function_line_style_live_plot)
 
         # pressure unit combo box
-        def CG2_pressure_unit_combo_box_live_plot(x):
+        def pressure_unit_combo_box_live_plot(x):
             text = self.ui.PlotPressureUnitCombo.currentText()
             json_settings.set_live_plot_attribute("pressure unit", text)
-        self.ui.PlotPressureUnitCombo.currentIndexChanged.connect(CG2_pressure_unit_combo_box_live_plot)
+        self.ui.PlotPressureUnitCombo.currentIndexChanged.connect(pressure_unit_combo_box_live_plot)
 
         # time unit combo box
-        def CG2_time_unit_combo_box_live_plot(x):
+        def time_unit_combo_box_live_plot(x):
             text = self.ui.PlotTimeUnitCombo.currentText()
             json_settings.set_live_plot_attribute("time unit", text)
-        self.ui.PlotTimeUnitCombo.currentIndexChanged.connect(CG2_time_unit_combo_box_live_plot)
+        self.ui.PlotTimeUnitCombo.currentIndexChanged.connect(time_unit_combo_box_live_plot)
 
         # gridded checkbox
         def gridded_checkbox(x):
@@ -564,12 +580,15 @@ class MainWindow(QMainWindow):
             
             if self.plot_controller.is_plot_on:
                 self.create_message_box("Warning", "Plot already running!", QMessageBox.Warning)
+                self.add_to_log_textbox(1, "Plot already running")
                 return
             
             plot_name = "Pressure as a Function of Time"
             
-            pressure_unit = self.ui.IGPressureUnitCombo.currentText()
-            time_unit = self.ui.IGTimeUnitCombo.currentText()
+            self.plot_controller.set_csv_file_path(self.ui.SaveFilePathLineEdit.text())
+
+            pressure_unit = self.ui.PlotPressureUnitCombo.currentText()
+            time_unit = self.ui.PlotTimeUnitCombo.currentText()
             self.plot_controller.pressure_unit = pressure_unit
             self.plot_controller.time_unit = time_unit
             xaxis_name = f"Time [{time_unit}]"
@@ -589,38 +608,66 @@ class MainWindow(QMainWindow):
             # if IG plot is checked, add it
             if self.ui.IGPlotItCheckBox.isChecked():
                 name = "IGP"
-                style = self.ui.IGPlotItCheckBox.text()
+                style = self.ui.IGPlotPressureLineStyle.text()
                 self.plot_controller.create_line(name, style)
                 self.IGplotData = True
+                self.plot_controller.create_csv_file("IGP")
             else:
                 self.IGplotData = False
             
             # if CG1 plot is checked, add it
             if self.ui.CG1PlotItCheckBox.isChecked():
-                name = "CGP1"
-                style = self.ui.CG1PlotItCheckBox.text()
+                name = "CG1P"
+                style = self.ui.CG1PlotPressureLineStyle.text()
                 self.plot_controller.create_line(name, style)
                 self.CG1plotData = True
+                self.plot_controller.create_csv_file("CG1P")
             else:
                 self.CG1plotData = False
             
             # # if CG2 plot is checked, add it
             # if self.ui.CG2PlotItCheckBox.isChecked():
-            #     name = "CGP2"
-            #     style = self.ui.CG2PlotItCheckBox.text()
+            #     name = "CG2P"
+            #     style = self.ui.CG2PlotPressureLineStyle.text()
             #     self.plot_controller.create_line(name, style)
             #     self.CG2plotData = True
+            #     self.plot_controller.create_csv_file("CG2P")
             # else:
             #     self.CG2plotData = False
             
             self.start_time = time.time()
             self.plot_controller.start_animation()
             
+            def plot_data_updater():
+                timefunc = json_units.get_time_function(self.plot_controller.time_unit)
+                pressurefunc = json_units.get_pressure_function(self.plot_controller.pressure_unit)
+
+                # if IG is plotted get it's pressure
+                if self.IGplotData:
+                    pressure = float(self.CGDevice.get_IG_pressure())
+                    curtime = time.time() - self.start_time
+                    
+                    curtime = timefunc(curtime)
+                    pressure = pressurefunc(pressure)
+                    
+                    self.plot_controller.add_data("IGP", curtime, pressure)
+                
+                # ig CG1 is plotted get it's pressure
+                if self.CG1plotData:
+                    pressure = float(self.CGDevice.get_CG1_pressure())
+                    curtime = time.time() - self.start_time
+
+                    curtime = timefunc(curtime)
+                    pressure = pressurefunc(pressure)
+                    # print(f"\n\n\nhalo\n{curtime}\n{pressure}\n\n\n")
+                    
+                    self.plot_controller.add_data("CGP1", curtime, pressure)
+
             # create a timer runs every "time latency" and updates the graph
             self.plot_timer = QTimer()
-            self.plot_timer.timeout.connect(self.plot_data_updater)
-            self.plot_timer.start(json_settings.get_settings_attribute("time latency") * 1000)
-
+            self.plot_timer.timeout.connect(plot_data_updater)
+            self.plot_timer.start(int(float(json_settings.get_settings_attribute("time latency")) * 1000))
+            self.add_to_log_textbox(1, "Live plot started")
         self.ui.StartPlotPlotView.clicked.connect(start_live_plot)
 
         # close live plot button
@@ -630,29 +677,14 @@ class MainWindow(QMainWindow):
                 self.plot_controller = None
             else:
                 self.create_message_box("Warning", "Plot does not exist!", QMessageBox.Warning)
+                self.add_to_log_textbox(1, "Plot does not exist")
+                return
 
             # stop self.plot_timer
             if self.plot_timer:
                 self.plot_timer.stop()
+            self.add_to_log_textbox(1, "Live plot closed")
         self.ui.StopPlotPlotView.clicked.connect(close_live_plot)
-
-    def plot_data_updater(self):
-        timefunc = json_units.get_time_function(self.plot_controller.time_unit)
-        pressurefunc = json_units.get_pressure_function(self.plot_controller.pressure_unit)
-
-        # if IG is plotted get it's pressure
-        if self.IGplotData:
-            pressure = self.CGDevice.get_IG_pressure()
-            curtime = time.time() - self.start_time
-
-            self.plot_controller.add_data("IGP", timefunc(curtime), pressurefunc(pressure))
-        
-        # ig CG1 is plotted get it's pressure
-        if self.CG1plotData:
-            pressure = self.CGDevice.get_CG1_pressure()
-            curtime = time.time() - self.start_time
-
-            self.plot_controller.add_data("CGP1", timefunc(curtime), pressurefunc(pressure))
 
     # create message box
     def create_message_box(self, title:str, text:str, ico = QMessageBox.NoIcon):
@@ -673,6 +705,7 @@ class MainWindow(QMainWindow):
             # get feliment status
             if self.CGDevice.get_feliment_status():
                 # feliment is already on
+                self.add_to_log_textbox(1, "Feliment is already on")
                 return
             # if self.CGDevice.turn_feliment_on():
             #     self.create_message_box("Success", "Feliment turned on successfully!", QMessageBox.Information)
@@ -680,9 +713,11 @@ class MainWindow(QMainWindow):
             # else:
             #     self.create_message_box("Error", "Failed to turn feliment on!", QMessageBox.Critical)
             print("feliment onn")
+            self.add_to_log_textbox(1, "Feliment turned on successfully")
         else:
             self.create_message_box("Error", "Device is not connected!", QMessageBox.Critical)
-    
+            self.add_to_log_textbox(1, "Can't turn on feliment - device is not connected")
+
     # turn feliment off
     def turn_feliment_off(self):
         if hasattr(self, "CGDevice"):
@@ -693,11 +728,14 @@ class MainWindow(QMainWindow):
             if self.CGDevice.turn_feliment_off():
                 self.create_message_box("Success", "Feliment turned off successfully!", QMessageBox.Information)
                 self.ui.ToolBarFelimentLabel.setText("Feliment: OFF")
+                self.add_to_log_textbox(1, "Feliment turned off successfully")
             else:
                 self.create_message_box("Error", "Failed to turn feliment off!", QMessageBox.Critical)
+                self.add_to_log_textbox(1, "Failed to turn feliment off")
         else:
             self.create_message_box("Error", "Device is not connected!", QMessageBox.Critical)
-    
+            self.add_to_log_textbox(1, "Can't turn off feliment - device is not connected")
+
     # set device status label and icon
     def set_device_status(self, status:bool):
         if status:
@@ -708,7 +746,7 @@ class MainWindow(QMainWindow):
             self.ui.ToolBarStatusdot.setIcon(QtGui.QIcon(REDDOT_ICON_PATH))
 
     # status updater func
-    async def status_updater(self):
+    def status_updater(self):
         # check if CGDevice is in self
         if not hasattr(self, "CGDevice"):
             self.ui.ToolBarIGPLabel.setText("IGP: OFF")
@@ -718,8 +756,8 @@ class MainWindow(QMainWindow):
             self.ui.ToolBarFelimentLabel.setText("Feliment: OFF")
         else:
             # check if feliment is not safe to be on
-            if await self.CGDevice.is_feliment_safe_to_start() == False \
-            and await self.CGDevice.get_feliment_status() == True:
+            if self.CGDevice.is_feliment_safe_to_start() == False \
+            and self.CGDevice.get_feliment_status() == True:
                 # turn feliment off
                 if not self.CGDevice.turn_feliment_off():
                     self.create_message_box("Error", "!!! Danger !!!\nfeliment should be turned off\nbut couldn't turn it off", QMessageBox.Critical)
@@ -770,12 +808,16 @@ class MainWindow(QMainWindow):
             else:
                 # CG2P is off
                 self.ui.ToolBarCG2PLabel.setText("CG2P: OFF")
-        
-        self.__render_log_textbox()
 
-    def __render_log_textbox(self) -> None:
+    def add_to_log_textbox(self, to_add: bool, msg: str) -> None:
+        if to_add:
+            log_obj.add_message(msg)
         self.ui.LogTextBox1.setPlainText(log_obj.get_log_text())
         self.ui.LogTextBox2.setPlainText(log_obj.get_log_text())
+
+        # set log textbox slider to be at the bottom
+        self.ui.LogTextBox1.verticalScrollBar().setValue(self.ui.LogTextBox1.verticalScrollBar().maximum())
+        self.ui.LogTextBox2.verticalScrollBar().setValue(self.ui.LogTextBox2.verticalScrollBar().maximum())
 
 
 if __name__ == "__main__":
@@ -795,6 +837,8 @@ if __name__ == "__main__":
         app.quit()
     window.closeEvent = on_close
     
+    window.add_to_log_textbox(1, "App started")
+
     window.show()
     # asyncio.run(sys.exit(app.exec_()))
     sys.exit(app.exec_())

@@ -636,9 +636,9 @@ Note:
                     <property name="text">
                      <string>Time Latency: 
 Note: 
-   time latency is in mili-seconds 
-   minimum is 5ms 
-   maximum is 5s </string>
+   time latency is in seconds 
+   minimum is 1ms 
+   maximum is 30s </string>
                     </property>
                    </widget>
                   </item>
@@ -660,10 +660,13 @@ Note:
                 <item>
                  <widget class="QDoubleSpinBox" name="TimeLatencyDoubleSpinBox">
                   <property name="minimum">
-                   <double>5.000000000000000</double>
+                   <double>1.000000000000000</double>
                   </property>
                   <property name="maximum">
-                   <double>5000.000000000000000</double>
+                   <double>30.000000000000000</double>
+                  </property>
+                  <property name="value">
+                   <double>1.000000000000000</double>
                   </property>
                  </widget>
                 </item>

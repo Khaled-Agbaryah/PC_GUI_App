@@ -63,6 +63,8 @@ class plotter:
         # plot data
         for line in self.lines:
             self.ax.plot(line.x_data, line.y_data, line.style, label=line.name)
+            # print(f"\n\n\n{line.x_data}\n{line.y_data}\n\n\n")
+            # self.ax.plot(line.x_data, line.y_data)
         # legend with legend names
         self.ax.legend(self.legends)
         # auto scale
@@ -115,12 +117,28 @@ class plotter:
         id = self.lines_names.index(name)
         self.lines[id].style = style
     
+    def set_csv_file_path(self, path: str) -> None:
+        self.data_file_path = path
+
+    def create_csv_file(self, name) -> None:
+        fname = self.data_file_path.split(".csv")[0] + name + ".csv"
+        with open(fname, "w") as fp:
+            fp.write("time, x, y\n")
+
+    def append_data_to_csv_file(self, name: str, data: str) -> None:
+        fname = self.data_file_path.split(".csv")[0] + name + ".csv"
+        with open(fname, "a") as fp:
+           fp.write(data)
+
     def add_data(self, name: str, x: float, y: float) -> None:
         if name not in self.lines_names:
             return
         id = self.lines_names.index(name)
         self.lines[id].x_data.append(x)
         self.lines[id].y_data.append(y)
+
+        strdata = f"{dt.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')},{x},{y}\n"
+        self.append_data_to_csv_file(name, strdata)
     
     def set_data_xlim(self, xlim: float) -> None:
         self.xlim = xlim
@@ -130,7 +148,7 @@ class plotter:
     
     def start_animation(self) -> None:
         if not self.ani:
-            self.ani = animation.FuncAnimation(self.fig, self.animate, interval=1000, cache_frame_data=False)
+            self.ani = animation.FuncAnimation(self.fig, self.animate, interval=300, cache_frame_data=False)
 
         # make a on close event for figure
         def on_close(event):

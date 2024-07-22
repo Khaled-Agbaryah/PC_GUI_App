@@ -1,5 +1,5 @@
 class logger:
-    def __init__(self, log_file_path = "", auto_save = True) -> None:
+    def __init__(self, log_file_path = "", auto_save = False) -> None:
         self.__messages = []
         self.__log_text = ""
         self.__file_path = log_file_path
@@ -20,6 +20,9 @@ class logger:
     
     def get_message(self, index: int) -> str:
         return self.__messages[index]
+    
+    def set_auto_save(self, auto_save: bool) -> None:
+        self.__auto_save = auto_save
     
     def set_log_file_path(self, path: str) -> None:
         self.__file_path = path
