@@ -122,47 +122,6 @@
                 </item>
                </layout>
               </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_3">
-                <item>
-                 <widget class="QCheckBox" name="BufferingCheckBox">
-                  <property name="text">
-                   <string>Data Buffering</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_3">
-                  <property name="text">
-                   <string>Buffer Max Size: </string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QSpinBox" name="BufferingSpinBox"/>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_4">
-                  <property name="text">
-                   <string>MB</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="BufferingHelp">
-                  <property name="maximumSize">
-                   <size>
-                    <width>35</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
              </layout>
             </item>
             <item>
@@ -173,404 +132,13 @@
              </widget>
             </item>
             <item>
-             <spacer name="verticalSpacer">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Maximum</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>300</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="tab_2">
-           <attribute name="title">
-            <string>Tab 2</string>
-           </attribute>
-           <layout class="QVBoxLayout" name="verticalLayout_8">
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_7">
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_5">
-                <item>
-                 <widget class="QLabel" name="label_5">
-                  <property name="text">
-                   <string>IG: </string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QCheckBox" name="IGSaveToFileCheckBox">
-                  <property name="text">
-                   <string>Save to File</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="IGSectionHelp">
-                  <property name="maximumSize">
-                   <size>
-                    <width>35</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_4">
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_9">
-                  <item>
-                   <widget class="QLabel" name="label_6">
-                    <property name="text">
-                     <string>Pressure Unit: </string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QComboBox" name="IGPressureUnitCombo"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="Line" name="line_5">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_10">
-                  <item>
-                   <widget class="QLabel" name="label_7">
-                    <property name="text">
-                     <string>Time Unit: </string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QComboBox" name="IGTimeUnitCombo"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="Line" name="line_6">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_11">
-                  <item>
-                   <widget class="QLabel" name="label_8">
-                    <property name="text">
-                     <string>Custom Function: </string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="IGCustomFunctionLineEdit"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_7">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="Line" name="line_2">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+             <widget class="QPlainTextEdit" name="LogTextBox3">
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+               </font>
               </property>
              </widget>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_13">
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_9">
-                <item>
-                 <widget class="QLabel" name="label_11">
-                  <property name="text">
-                   <string>CG1: </string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QCheckBox" name="CG1SaveToFileCheckBox">
-                  <property name="text">
-                   <string>Save to File</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="CG1SectionHelp">
-                  <property name="maximumSize">
-                   <size>
-                    <width>35</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_2">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_8">
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_15">
-                  <item>
-                   <widget class="QLabel" name="label_12">
-                    <property name="text">
-                     <string>Pressure Unit: </string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QComboBox" name="CG1PressureUnitCombo"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="Line" name="line_9">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_16">
-                  <item>
-                   <widget class="QLabel" name="label_13">
-                    <property name="text">
-                     <string>Time Unit: </string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QComboBox" name="CG1TimeUnitCombo"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="Line" name="line_8">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_17">
-                  <item>
-                   <widget class="QLabel" name="label_14">
-                    <property name="text">
-                     <string>Custom Function: </string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="CG1CustomFunctionLineEdit"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_8">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="Line" name="line_3">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_14">
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_12">
-                <item>
-                 <widget class="QLabel" name="label_17">
-                  <property name="text">
-                   <string>CG2: </string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QCheckBox" name="CG2SaveToFileCheckBox">
-                  <property name="text">
-                   <string>Save to File</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="CG2SectionHelp">
-                  <property name="maximumSize">
-                   <size>
-                    <width>35</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_3">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_13">
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_19">
-                  <item>
-                   <widget class="QLabel" name="label_18">
-                    <property name="text">
-                     <string>Pressure Unit: </string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QComboBox" name="CG2PressureUnitCombo"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="Line" name="line_12">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_20">
-                  <item>
-                   <widget class="QLabel" name="label_19">
-                    <property name="text">
-                     <string>Time Unit: </string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QComboBox" name="CG2TimeUnitCombo"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="Line" name="line_11">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_21">
-                  <item>
-                   <widget class="QLabel" name="label_20">
-                    <property name="text">
-                     <string>Custom Function: </string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="CG2CustomFunctionLineEdit"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_9">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-             </layout>
             </item>
            </layout>
           </widget>
@@ -637,7 +205,7 @@ Note:
                      <string>Time Latency: 
 Note: 
    time latency is in seconds 
-   minimum is 1ms 
+   minimum is 1s 
    maximum is 30s </string>
                     </property>
                    </widget>
@@ -719,9 +287,7 @@ Note:
                  <bool>true</bool>
                 </property>
                 <property name="plainText">
-                 <string>hello
-there
-</string>
+                 <string/>
                 </property>
                </widget>
               </item>
@@ -786,27 +352,6 @@ there
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_21">
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_33">
-                <item>
-                 <widget class="QLabel" name="label_29">
-                  <property name="text">
-                   <string>Custom Function: </string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="IGPlotCustomFunctionLineEdit"/>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <widget class="Line" name="line_18">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-               </widget>
-              </item>
-              <item>
                <layout class="QVBoxLayout" name="verticalLayout_34">
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_23">
@@ -827,26 +372,18 @@ there
                     </property>
                    </widget>
                   </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_24">
                   <item>
-                   <widget class="QLabel" name="label_31">
-                    <property name="text">
-                     <string>Custom Function Line Style: </string>
+                   <spacer name="horizontalSpacer_3">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
                     </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="IGPlotCustomFunctionLineStyle">
-                    <property name="maximumSize">
+                    <property name="sizeHint" stdset="0">
                      <size>
-                      <width>150</width>
-                      <height>16777215</height>
+                      <width>40</width>
+                      <height>20</height>
                      </size>
                     </property>
-                   </widget>
+                   </spacer>
                   </item>
                  </layout>
                 </item>
@@ -912,27 +449,6 @@ there
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_25">
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_39">
-                <item>
-                 <widget class="QLabel" name="label_35">
-                  <property name="text">
-                   <string>Custom Function: </string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="CG1PlotCustomFunctionLineEdit"/>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <widget class="Line" name="line_21">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-               </widget>
-              </item>
-              <item>
                <layout class="QVBoxLayout" name="verticalLayout_40">
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_27">
@@ -953,26 +469,18 @@ there
                     </property>
                    </widget>
                   </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_28">
                   <item>
-                   <widget class="QLabel" name="label_37">
-                    <property name="text">
-                     <string>Custom Function Line Style: </string>
+                   <spacer name="horizontalSpacer_2">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
                     </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="CG1PlotCustomFunctionLineStyle">
-                    <property name="maximumSize">
+                    <property name="sizeHint" stdset="0">
                      <size>
-                      <width>150</width>
-                      <height>16777215</height>
+                      <width>40</width>
+                      <height>20</height>
                      </size>
                     </property>
-                   </widget>
+                   </spacer>
                   </item>
                  </layout>
                 </item>
@@ -1038,27 +546,6 @@ there
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_30">
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_45">
-                <item>
-                 <widget class="QLabel" name="label_41">
-                  <property name="text">
-                   <string>Custom Function: </string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="CG2PlotCustomFunctionLineEdit"/>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <widget class="Line" name="line_24">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-               </widget>
-              </item>
-              <item>
                <layout class="QVBoxLayout" name="verticalLayout_46">
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_31">
@@ -1079,26 +566,18 @@ there
                     </property>
                    </widget>
                   </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_32">
                   <item>
-                   <widget class="QLabel" name="label_42">
-                    <property name="text">
-                     <string>Custom Function Line Style: </string>
+                   <spacer name="horizontalSpacer">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
                     </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="CG2PlotCustomFunctionLineStyle">
-                    <property name="maximumSize">
+                    <property name="sizeHint" stdset="0">
                      <size>
-                      <width>150</width>
-                      <height>16777215</height>
+                      <width>40</width>
+                      <height>20</height>
                      </size>
                     </property>
-                   </widget>
+                   </spacer>
                   </item>
                  </layout>
                 </item>
@@ -1140,27 +619,9 @@ there
              </layout>
             </item>
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout_41">
-              <item>
-               <widget class="QPushButton" name="refreshPlotPlotView">
-                <property name="text">
-                 <string>Refresh Plot</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="clearPlotPlotView">
-                <property name="text">
-                 <string>Clear Plot</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="QPushButton" name="ScreenShotPlotPushButton">
-              <property name="text">
-               <string>Screenshot Plot</string>
+             <widget class="Line" name="line_2">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
               </property>
              </widget>
             </item>
@@ -1195,6 +656,13 @@ there
                </layout>
               </item>
              </layout>
+            </item>
+            <item>
+             <widget class="Line" name="line_3">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+             </widget>
             </item>
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_23">
@@ -1297,12 +765,6 @@ there
    <addaction name="separator"/>
    <addaction name="ToolBarFelimentLabel"/>
    <addaction name="ToolBarPowerONOFFICO"/>
-   <addaction name="separator"/>
-   <addaction name="ToolBarIGPLabel"/>
-   <addaction name="separator"/>
-   <addaction name="ToolBarCG1PLabel"/>
-   <addaction name="separator"/>
-   <addaction name="ToolBarCG2PLabel"/>
    <addaction name="separator"/>
    <addaction name="actionsaveSettingsICO"/>
    <addaction name="separator"/>

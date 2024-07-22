@@ -105,10 +105,6 @@ class MainWindow(QMainWindow):
         self.ui.connectDeviceButton.setIcon(QtGui.QIcon(DISCONNECTED_ICON_PATH))
         self.ui.connectDeviceHelp.setIcon(QtGui.QIcon(HELP_ICON_PATH))
         self.ui.SaveFilePathHelp.setIcon(QtGui.QIcon(HELP_ICON_PATH))
-        self.ui.BufferingHelp.setIcon(QtGui.QIcon(HELP_ICON_PATH))
-        self.ui.IGSectionHelp.setIcon(QtGui.QIcon(HELP_ICON_PATH))
-        self.ui.CG1SectionHelp.setIcon(QtGui.QIcon(HELP_ICON_PATH))
-        self.ui.CG2SectionHelp.setIcon(QtGui.QIcon(HELP_ICON_PATH))
         self.ui.maxRuntimeHelp.setIcon(QtGui.QIcon(HELP_ICON_PATH))
         self.ui.timeLatencyHelp.setIcon(QtGui.QIcon(HELP_ICON_PATH))
         self.ui.IGplotHelp.setIcon(QtGui.QIcon(HELP_ICON_PATH))
@@ -118,12 +114,6 @@ class MainWindow(QMainWindow):
         # insert values into ComboBoxes
         pressure_units = json_units.get_pressure_units()
         time_units = json_units.get_time_units()
-        self.ui.IGPressureUnitCombo.insertItems(0, pressure_units[:])
-        self.ui.IGTimeUnitCombo.insertItems(0, time_units[:])
-        self.ui.CG1PressureUnitCombo.insertItems(0, pressure_units[:])
-        self.ui.CG1TimeUnitCombo.insertItems(0, time_units[:])
-        self.ui.CG2PressureUnitCombo.insertItems(0, pressure_units[:])
-        self.ui.CG2TimeUnitCombo.insertItems(0, time_units[:])
         self.ui.PlotPressureUnitCombo.insertItems(0, pressure_units[:])
         self.ui.PlotTimeUnitCombo.insertItems(0, time_units[:])
 
@@ -133,8 +123,7 @@ class MainWindow(QMainWindow):
  
         # settings page tabs names
         self.ui.tabWidget.setTabText(0, SETTINGS_TAB_SUBTAB_1_NAME)
-        self.ui.tabWidget.setTabText(1, SETTINGS_TAB_SUBTAB_2_NAME)
-        self.ui.tabWidget.setTabText(2, SETTINGS_TAB_SUBTAB_3_NAME)
+        self.ui.tabWidget.setTabText(1, SETTINGS_TAB_SUBTAB_3_NAME)
 
         # toolbar
         # hide green-dot
@@ -154,26 +143,6 @@ class MainWindow(QMainWindow):
         json_settings.set_settings_attribute("save data to", "")
         # self.ui.SaveFilePathCheckBox.setChecked(json_settings.get_settings_attribute("auto file name") == "True")
         json_settings.set_settings_attribute("auto file name", "False")
-        self.ui.BufferingCheckBox.setChecked(json_settings.get_settings_attribute("data buffering") == "True")
-        tmp = str(json_settings.get_settings_attribute("buffer max size"))
-        tmp = int(tmp) if is_int(tmp) else 0
-        self.ui.BufferingSpinBox.setValue(tmp)
-        # tab2 #
-        # IG
-        self.ui.IGSaveToFileCheckBox.setChecked(json_settings.get_settings_IG_attribute("save to file") == "True")
-        self.ui.IGPressureUnitCombo.setCurrentText(json_settings.get_settings_IG_attribute("pressure unit"))
-        self.ui.IGTimeUnitCombo.setCurrentText(json_settings.get_settings_IG_attribute("time unit"))
-        self.ui.IGCustomFunctionLineEdit.setText(json_settings.get_settings_IG_attribute("custom function"))
-        # CG1
-        self.ui.CG1SaveToFileCheckBox.setChecked(json_settings.get_settings_CG1_attribute("save to file") == "True")
-        self.ui.CG1PressureUnitCombo.setCurrentText(json_settings.get_settings_CG1_attribute("pressure unit"))
-        self.ui.CG1TimeUnitCombo.setCurrentText(json_settings.get_settings_CG1_attribute("time unit"))
-        self.ui.CG1CustomFunctionLineEdit.setText(json_settings.get_settings_CG1_attribute("custom function"))
-        # CG2
-        self.ui.CG2SaveToFileCheckBox.setChecked(json_settings.get_settings_CG2_attribute("save to file") == "True")
-        self.ui.CG2PressureUnitCombo.setCurrentText(json_settings.get_settings_CG2_attribute("pressure unit"))
-        self.ui.CG2TimeUnitCombo.setCurrentText(json_settings.get_settings_CG2_attribute("time unit"))
-        self.ui.CG2CustomFunctionLineEdit.setText(json_settings.get_settings_CG2_attribute("custom function"))
         # tab3 #
         tmp = str(json_settings.get_settings_attribute("max runtime"))
         tmp = int(tmp) if is_int(tmp) else 0
@@ -192,19 +161,13 @@ class MainWindow(QMainWindow):
         self.ui.GriddedCheckBox.setChecked(json_settings.get_live_plot_attribute("gridded") == "True")
         # IG
         self.ui.IGPlotItCheckBox.setChecked(json_settings.get_live_plot_IG_attribute("plot it") == "True")
-        self.ui.IGPlotCustomFunctionLineEdit.setText(json_settings.get_live_plot_IG_attribute("custom function"))
         self.ui.IGPlotPressureLineStyle.setText(json_settings.get_live_plot_IG_attribute("pressure line style"))
-        self.ui.IGPlotCustomFunctionLineStyle.setText(json_settings.get_live_plot_IG_attribute("custom function line style"))
         # CG1
         self.ui.CG1PlotItCheckBox.setChecked(json_settings.get_live_plot_CG1_attribute("plot it") == "True")
-        self.ui.CG1PlotCustomFunctionLineEdit.setText(json_settings.get_live_plot_CG1_attribute("custom function"))
         self.ui.CG1PlotPressureLineStyle.setText(json_settings.get_live_plot_CG1_attribute("pressure line style"))
-        self.ui.CG1PlotCustomFunctionLineStyle.setText(json_settings.get_live_plot_CG1_attribute("custom function line style"))
         # CG2
         self.ui.CG2PlotItCheckBox.setChecked(json_settings.get_live_plot_CG2_attribute("plot it") == "True")
-        self.ui.CG2PlotCustomFunctionLineEdit.setText(json_settings.get_live_plot_CG2_attribute("custom function"))
         self.ui.CG2PlotPressureLineStyle.setText(json_settings.get_live_plot_CG2_attribute("pressure line style"))
-        self.ui.CG2PlotCustomFunctionLineStyle.setText(json_settings.get_live_plot_CG2_attribute("custom function line style"))
         
         self.add_to_log_textbox(1, "Saved settings are loaded successfully")
 
@@ -212,9 +175,75 @@ class MainWindow(QMainWindow):
         # Logic, making UI work
         ########################
         ################
-        # general
+        # Help buttons
         ################
+        # status bar help button
+        def status_bar_help():
+            msg = """in top bar you see:
+             - Status of the device: if it's connected or not, with text indicating so and a colored dot (green connected, red not connected)
+             - Feliment status: says if the feliment is on or off
+             - Feliment power on/off button
+             - Save settings button: when clicked, current paramaeters will be saved for future runs
+             - Help button"""
+            self.create_message_box("Help", msg, QMessageBox.Information)
+        self.ui.actionHelpTopBarICO.triggered.connect(status_bar_help)
+
+        # device port help
+        def device_port_help():
+            msg = """Enter the device port (e.g., COM1, /dev/ttyUSB0)
+            Then click the connect button, you'll see a chnge in the status of the device at the top bar
+            if you don't know the port of the device, opne 'Device Manager' and look under 'Ports (COM & LPT)' section"""
+            self.create_message_box("Help", msg, QMessageBox.Information)
+        self.ui.connectDeviceHelp.clicked.connect(device_port_help)
+
+        # save file path help
+        def save_file_path_help():
+            msg = """Enter the path and file name of the data file you want to save the data to
+            If left empty, a file will be created in the current directory with no name (will only have the name of the sensor)
+            If 'Auto File Name' is checked it will use time to make the name and let you choose where to save it
+            
+            files format is csv
+            sensor's name will be added to the end of the name of the file"""
+            self.create_message_box("Help", msg, QMessageBox.Information)
+        self.ui.SaveFilePathHelp.clicked.connect(save_file_path_help)
+
+        # max runtime help
+        def max_runtime_help():
+            msg = """Enter the maximum time in seconds the program will run
+            default is 0, program will run without stopping
+            if a value is inserted, the program will stop after that time"""
+            self.create_message_box("Help", msg, QMessageBox.Information)
+        self.ui.maxRuntimeHelp.clicked.connect(max_runtime_help)
         
+        # time latency help
+        def time_latency_help():
+            msg = """Enter the time in seconds to wait before starting the measurements
+            default is 0, program will start immediately
+            if a value is inserted, the program will wait that time before starting the measurements"""
+            self.create_message_box("Help", msg, QMessageBox.Information)
+        self.ui.timeLatencyHelp.clicked.connect(time_latency_help)
+
+        # ig plot view help 
+        def ig_plot_view_help():
+            msg = """Check this box to plot the IG pressure
+            You can change the line style of the pressure line: style is like matplotlib in python"""
+            self.create_message_box("Help", msg, QMessageBox.Information)
+        self.ui.IGplotHelp.clicked.connect(ig_plot_view_help)
+
+        # cg1 plot view help
+        def cg1_plot_view_help():
+            msg = """Check this box to plot the CG1 pressure
+            You can change the line style of the pressure line: style is like matplotlib in python"""
+            self.create_message_box("Help", msg, QMessageBox.Information)
+        self.ui.CG1plotHelp.clicked.connect(cg1_plot_view_help)
+
+        # cg2 plot view help
+        def cg2_plot_view_help():
+            msg = """Check this box to plot the CG2 pressure
+            You can change the line style of the pressure line: style is like matplotlib in python"""
+            self.create_message_box("Help", msg, QMessageBox.Information)
+        self.ui.CG2plotHelp.clicked.connect(cg2_plot_view_help)
+
         ################
         # Tool bar
         ################
@@ -270,6 +299,12 @@ class MainWindow(QMainWindow):
             self.ui.ToolBarStatusLabel.setText("Status: Connected")
             self.ui.connectDeviceButton.setIcon(QtGui.QIcon(CONNECTED_ICON_PATH))
             self.ui.connectDeviceLabel.setText("Connected")
+
+            # check feliment status
+            if self.CGDevice.get_feliment_status():
+                self.ui.ToolBarFelimentLabel.setText("Feliment: ON")
+                self.add_to_log_textbox(1, "Feliment is on")
+
             self.add_to_log_textbox(1, "Device is connected successfully")
         self.ui.connectDeviceButton.clicked.connect(connect_device)
 
@@ -320,104 +355,6 @@ class MainWindow(QMainWindow):
                 json_settings.set_settings_attribute("auto file name", "False")
         self.ui.SaveFilePathCheckBox.stateChanged.connect(auto_filename_checkbox)
 
-        # data buffering checkbox
-        def data_buffering_checkbox(x):
-            if self.ui.BufferingCheckBox.isChecked():
-                json_settings.set_settings_attribute("data buffering", "True")
-            else:
-                json_settings.set_settings_attribute("data buffering", "False")
-        self.ui.BufferingCheckBox.stateChanged.connect(data_buffering_checkbox)
-
-        # buffer max size
-        def buffer_max_size(x):
-            text = str(self.ui.BufferingSpinBox.value())
-            json_settings.set_settings_attribute("buffer max size", text)
-        self.ui.BufferingSpinBox.valueChanged.connect(buffer_max_size)
-
-        ###########
-        # Subtab 2
-        ###########
-        # IG #
-        # save to file checkbox
-        def IG_save_to_file_checkbox(x):
-            if self.ui.IGSaveToFileCheckBox.isChecked():
-                json_settings.set_settings_IG_attribute("save to file", "True")
-            else:
-                json_settings.set_settings_IG_attribute("save to file", "False")
-        self.ui.IGSaveToFileCheckBox.stateChanged.connect(IG_save_to_file_checkbox)
-
-        # pressure unit combo box
-        def IG_pressure_unit_combo_box(x):
-            text = self.ui.IGPressureUnitCombo.currentText()
-            json_settings.set_settings_IG_attribute("pressure unit", text)
-        self.ui.IGPressureUnitCombo.currentIndexChanged.connect(IG_pressure_unit_combo_box)
-
-        # time unit combo box
-        def IG_time_unit_combo_box(x):
-            text = self.ui.IGTimeUnitCombo.currentText()
-            json_settings.set_settings_IG_attribute("time unit", text)
-        self.ui.IGTimeUnitCombo.currentIndexChanged.connect(IG_time_unit_combo_box)
-
-        # custom function
-        def IG_custom_function(x):
-            text = self.ui.IGCustomFunctionLineEdit.text()
-            json_settings.set_settings_IG_attribute("custom function", text)
-        self.ui.IGCustomFunctionLineEdit.textChanged.connect(IG_custom_function)
-
-        # CG1 #
-        # save to file checkbox
-        def CG1_save_to_file_checkbox(x):
-            if self.ui.CG1SaveToFileCheckBox.isChecked():
-                json_settings.set_settings_CG1_attribute("save to file", "True")
-            else:
-                json_settings.set_settings_CG1_attribute("save to file", "False")
-        self.ui.CG1SaveToFileCheckBox.stateChanged.connect(CG1_save_to_file_checkbox)
-
-        # pressure unit combo box
-        def CG1_pressure_unit_combo_box(x):
-            text = self.ui.CG1PressureUnitCombo.currentText()
-            json_settings.set_settings_CG1_attribute("pressure unit", text)
-        self.ui.CG1PressureUnitCombo.currentIndexChanged.connect(CG1_pressure_unit_combo_box)
-
-        # time unit combo box
-        def CG1_time_unit_combo_box(x):
-            text = self.ui.CG1TimeUnitCombo.currentText()
-            json_settings.set_settings_CG1_attribute("time unit", text)
-        self.ui.CG1TimeUnitCombo.currentIndexChanged.connect(CG1_time_unit_combo_box)
-
-        # custom function
-        def CG1_custom_function(x):
-            text = self.ui.CG1CustomFunctionLineEdit.text()
-            json_settings.set_settings_CG1_attribute("custom function", text)
-        self.ui.CG1CustomFunctionLineEdit.textChanged.connect(CG1_custom_function)
-
-        # CG2 #
-        # save to file checkbox
-        def CG2_save_to_file_checkbox(x):
-            if self.ui.CG2SaveToFileCheckBox.isChecked():
-                json_settings.set_settings_CG2_attribute("save to file", "True")
-            else:
-                json_settings.set_settings_CG2_attribute("save to file", "False")
-        self.ui.CG2SaveToFileCheckBox.stateChanged.connect(CG2_save_to_file_checkbox)
-
-        # pressure unit combo box
-        def CG2_pressure_unit_combo_box(x):
-            text = self.ui.CG2PressureUnitCombo.currentText()
-            json_settings.set_settings_CG2_attribute("pressure unit", text)
-        self.ui.CG2PressureUnitCombo.currentIndexChanged.connect(CG2_pressure_unit_combo_box)
-
-        # time unit combo box
-        def CG2_time_unit_combo_box(x):
-            text = self.ui.CG2TimeUnitCombo.currentText()
-            json_settings.set_settings_CG2_attribute("time unit", text)
-        self.ui.CG2TimeUnitCombo.currentIndexChanged.connect(CG2_time_unit_combo_box)
-
-        # custom function
-        def CG2_custom_function(x):
-            text = self.ui.CG2CustomFunctionLineEdit.text()
-            json_settings.set_settings_CG2_attribute("custom function", text)
-        self.ui.CG2CustomFunctionLineEdit.textChanged.connect(CG2_custom_function)
-
         ###########
         # Subtab 3
         ###########
@@ -462,23 +399,11 @@ class MainWindow(QMainWindow):
                 json_settings.set_live_plot_IG_attribute("plot it", "False")
         self.ui.IGPlotItCheckBox.stateChanged.connect(IG_plot_it_checkbox_live_plot)
 
-        # custom function
-        def IG_custom_function_live_plot(x):
-            text = self.ui.IGPlotCustomFunctionLineEdit.text()
-            json_settings.set_live_plot_IG_attribute("custom function", text)
-        self.ui.IGPlotCustomFunctionLineEdit.textChanged.connect(IG_custom_function_live_plot)
-
         # pressure line style
         def IG_pressure_line_style_live_plot(x):
             text = self.ui.IGPlotPressureLineStyle.text()
             json_settings.set_live_plot_IG_attribute("pressure line style", text)
         self.ui.IGPlotPressureLineStyle.textChanged.connect(IG_pressure_line_style_live_plot)
-
-        # custome function line style
-        def IG_custom_function_line_style_live_plot(x):
-            text = self.ui.IGPlotCustomFunctionLineStyle.text()
-            json_settings.set_live_plot_IG_attribute("custom function line style", text)
-        self.ui.IGPlotCustomFunctionLineStyle.textChanged.connect(IG_custom_function_line_style_live_plot)
 
         # CG1 #
         # plot it checkbox
@@ -489,24 +414,12 @@ class MainWindow(QMainWindow):
                 json_settings.set_live_plot_CG1_attribute("plot it", "False")
         self.ui.CG1PlotItCheckBox.stateChanged.connect(CG1_plot_it_checkbox_live_plot)
 
-        # custom function
-        def CG1_custom_function_live_plot(x):
-            text = self.ui.CG1PlotCustomFunctionLineEdit.text()
-            json_settings.set_live_plot_CG1_attribute("custom function", text)
-        self.ui.CG1PlotCustomFunctionLineEdit.textChanged.connect(CG1_custom_function_live_plot)
-
         # pressure line style
         def CG1_pressure_line_style_live_plot(x):
             text = self.ui.CG1PlotPressureLineStyle.text()
             json_settings.set_live_plot_CG1_attribute("pressure line style", text)
         self.ui.CG1PlotPressureLineStyle.textChanged.connect(CG1_pressure_line_style_live_plot)
 
-        # custome function line style
-        def CG1_custom_function_line_style_live_plot(x):
-            text = self.ui.CG1PlotCustomFunctionLineStyle.text()
-            json_settings.set_live_plot_CG1_attribute("custom function line style", text)
-        self.ui.CG1PlotCustomFunctionLineStyle.textChanged.connect(CG1_custom_function_line_style_live_plot)
-        
         # CG2 #
         # plot it checkbox
         def CG2_plot_it_checkbox_live_plot(x):
@@ -516,23 +429,11 @@ class MainWindow(QMainWindow):
                 json_settings.set_live_plot_CG2_attribute("plot it", "False")
         self.ui.CG2PlotItCheckBox.stateChanged.connect(CG2_plot_it_checkbox_live_plot)
 
-        # custom function
-        def CG2_custom_function_live_plot(x):
-            text = self.ui.CG2PlotCustomFunctionLineEdit.text()
-            json_settings.set_live_plot_CG2_attribute("custom function", text)
-        self.ui.CG2PlotCustomFunctionLineEdit.textChanged.connect(CG2_custom_function_live_plot)
-
         # pressure line style
         def CG2_pressure_line_style_live_plot(x):
             text = self.ui.CG2PlotPressureLineStyle.text()
             json_settings.set_live_plot_CG2_attribute("pressure line style", text)
         self.ui.CG2PlotPressureLineStyle.textChanged.connect(CG2_pressure_line_style_live_plot)
-
-        # custome function line style
-        def CG2_custom_function_line_style_live_plot(x):
-            text = self.ui.CG2PlotCustomFunctionLineStyle.text()
-            json_settings.set_live_plot_CG2_attribute("custom function line style", text)
-        self.ui.CG2PlotCustomFunctionLineStyle.textChanged.connect(CG2_custom_function_line_style_live_plot)
 
         # pressure unit combo box
         def pressure_unit_combo_box_live_plot(x):
@@ -625,20 +526,29 @@ class MainWindow(QMainWindow):
             else:
                 self.CG1plotData = False
             
-            # # if CG2 plot is checked, add it
-            # if self.ui.CG2PlotItCheckBox.isChecked():
-            #     name = "CG2P"
-            #     style = self.ui.CG2PlotPressureLineStyle.text()
-            #     self.plot_controller.create_line(name, style)
-            #     self.CG2plotData = True
-            #     self.plot_controller.create_csv_file("CG2P")
-            # else:
-            #     self.CG2plotData = False
+            # if CG2 plot is checked, add it
+            if self.ui.CG2PlotItCheckBox.isChecked():
+                name = "CG2P"
+                style = self.ui.CG2PlotPressureLineStyle.text()
+                self.plot_controller.create_line(name, style)
+                self.CG2plotData = True
+                self.plot_controller.create_csv_file("CG2P")
+            else:
+                self.CG2plotData = False
             
             self.start_time = time.time()
+            self.plot_updater_can_run = True
             self.plot_controller.start_animation()
             
             def plot_data_updater():
+                maxrunt = float(json_settings.get_settings_attribute("max runtime"))
+                if maxrunt > 0 and time.time() - self.start_time > maxrunt:
+                    close_live_plot(None)
+                    self.plot_updater_can_run = False
+                
+                if not self.plot_updater_can_run:
+                    return
+                
                 timefunc = json_units.get_time_function(self.plot_controller.time_unit)
                 pressurefunc = json_units.get_pressure_function(self.plot_controller.pressure_unit)
 
@@ -649,7 +559,7 @@ class MainWindow(QMainWindow):
                     
                     curtime = timefunc(curtime)
                     pressure = pressurefunc(pressure)
-                    
+
                     self.plot_controller.add_data("IGP", curtime, pressure)
                 
                 # ig CG1 is plotted get it's pressure
@@ -674,7 +584,14 @@ class MainWindow(QMainWindow):
         def close_live_plot(x):
             if self.plot_controller:
                 self.plot_controller.close_plot()
+                self.plot_controller.is_plot_on = False
+                # # stop animation
+                # if self.plot_controller.ani:
+                #     self.plot_controller.ani.event_source.stop()
                 self.plot_controller = None
+                # stop plot timer
+                if self.plot_timer:
+                    self.plot_timer.stop()
             else:
                 self.create_message_box("Warning", "Plot does not exist!", QMessageBox.Warning)
                 self.add_to_log_textbox(1, "Plot does not exist")
@@ -701,29 +618,34 @@ class MainWindow(QMainWindow):
     
     # turn feliment on
     def turn_feliment_on(self):
+        return
         if hasattr(self, "CGDevice"):
             # get feliment status
             if self.CGDevice.get_feliment_status():
                 # feliment is already on
                 self.add_to_log_textbox(1, "Feliment is already on")
                 return
-            # if self.CGDevice.turn_feliment_on():
-            #     self.create_message_box("Success", "Feliment turned on successfully!", QMessageBox.Information)
-            #     self.ui.ToolBarFelimentLabel.setText("Feliment: ON")
-            # else:
-            #     self.create_message_box("Error", "Failed to turn feliment on!", QMessageBox.Critical)
-            print("feliment onn")
-            self.add_to_log_textbox(1, "Feliment turned on successfully")
+            if self.CGDevice.turn_feliment_on():
+                self.create_message_box("Success", "Feliment turned on successfully!", QMessageBox.Information)
+                self.ui.ToolBarFelimentLabel.setText("Feliment: ON")
+                self.add_to_log_textbox(1, "Feliment turned on successfully")
+            else:
+                self.create_message_box("Error", "Failed to turn feliment on!", QMessageBox.Critical)
+                self.add_to_log_textbox(1, "Failed to turn feliment on\nmake sure pressure is low enough!")
+            # print("feliment onn")
+            # self.add_to_log_textbox(1, "Feliment turned on successfully")
         else:
             self.create_message_box("Error", "Device is not connected!", QMessageBox.Critical)
             self.add_to_log_textbox(1, "Can't turn on feliment - device is not connected")
 
     # turn feliment off
     def turn_feliment_off(self):
+        return
         if hasattr(self, "CGDevice"):
             # get feliment status
             if not self.CGDevice.get_feliment_status():
                 # feliment is already off
+                self.add_to_log_textbox(1, "Feliment is already off")
                 return
             if self.CGDevice.turn_feliment_off():
                 self.create_message_box("Success", "Feliment turned off successfully!", QMessageBox.Information)
@@ -749,9 +671,9 @@ class MainWindow(QMainWindow):
     def status_updater(self):
         # check if CGDevice is in self
         if not hasattr(self, "CGDevice"):
-            self.ui.ToolBarIGPLabel.setText("IGP: OFF")
-            self.ui.ToolBarCG1PLabel.setText("CG1P: OFF")
-            self.ui.ToolBarCG2PLabel.setText("CG2P: OFF")
+            # self.ui.ToolBarIGPLabel.setText("IGP: OFF")
+            # self.ui.ToolBarCG1PLabel.setText("CG1P: OFF")
+            # self.ui.ToolBarCG2PLabel.setText("CG2P: OFF")
             self.set_device_status(False)
             self.ui.ToolBarFelimentLabel.setText("Feliment: OFF")
         else:
@@ -814,10 +736,12 @@ class MainWindow(QMainWindow):
             log_obj.add_message(msg)
         self.ui.LogTextBox1.setPlainText(log_obj.get_log_text())
         self.ui.LogTextBox2.setPlainText(log_obj.get_log_text())
+        self.ui.LogTextBox3.setPlainText(log_obj.get_log_text())
 
         # set log textbox slider to be at the bottom
         self.ui.LogTextBox1.verticalScrollBar().setValue(self.ui.LogTextBox1.verticalScrollBar().maximum())
         self.ui.LogTextBox2.verticalScrollBar().setValue(self.ui.LogTextBox2.verticalScrollBar().maximum())
+        self.ui.LogTextBox3.verticalScrollBar().setValue(self.ui.LogTextBox3.verticalScrollBar().maximum())
 
 
 if __name__ == "__main__":

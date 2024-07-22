@@ -34,7 +34,8 @@ class CGcontactor:
         while received == "":
             received = self.__RS485_chip.readline().decode()
                 
-        # time.sleep(0.1)
+        time.sleep(0.06)
+        # print(received)
 
         return received
     
@@ -51,6 +52,8 @@ class CGcontactor:
         y, p = tmp[0], tmp[1][:2]
         y, p = float(y), float(p)
         if p < -3 or (p == -3 and y == 1):
+            return True
+        if p == 0 and y == 0:
             return True
         return False
 
@@ -78,7 +81,12 @@ class CGcontactor:
         where y.yy = mantissa, 
         z = sign of the exponent, i.e., +/- 
         and pp = the exponent."""
-        return self.__send_to_chip("RD")[4:12]
+        res = self.__send_to_chip("RD")[4:12]
+        try:
+            float(res)
+        except:
+            res = res[:-1]
+        return res
 
     # CG1
     def get_CG1_status(self)->bool:
@@ -90,7 +98,12 @@ class CGcontactor:
         where y.yy = mantissa, 
         z = sign of the exponent, i.e., +/- 
         and pp = the exponent."""
-        return self.__send_to_chip("RDCG1")[4:12]
+        res = self.__send_to_chip("RDCG1")[4:12]
+        try:
+            float(res)
+        except:
+            res = res[:-1]
+        return res
 
     # CG2
     def get_CG2_status(self)->bool:
@@ -102,4 +115,9 @@ class CGcontactor:
         where y.yy = mantissa, 
         z = sign of the exponent, i.e., +/- 
         and pp = the exponent."""
-        return self.__send_to_chip("RDCG2")[4:12]
+        res = self.__send_to_chip("RDCG2")[4:12]
+        try:
+            float(res)
+        except:
+            res = res[:-1]
+        return res

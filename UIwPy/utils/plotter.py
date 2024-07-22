@@ -41,6 +41,9 @@ class plotter:
         self.gridded = False
 
     def animate(self, i: int) -> None:
+        if not self.is_plot_on:
+            print("hi")
+            return
         # clear the plot area
         self.ax.clear()
         # set title
@@ -162,7 +165,8 @@ class plotter:
         plt.show()
     
     def stop_animation(self) -> None:
-        self.ani.event_source.stop()
+        # self.ani.event_source.stop()
+        pass
     
     def clear_plot(self) -> None:
         self.ax.clear()
